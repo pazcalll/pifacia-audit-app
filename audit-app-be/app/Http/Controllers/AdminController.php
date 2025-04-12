@@ -38,4 +38,11 @@ class AdminController extends Controller
             message: 'Logged out successfully',
         );
     }
+
+    public function profile()
+    {
+        return apiResponse(
+            data: Auth::user(),
+        );
+    }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid();
             $table->foreignUuid('user_id');
             $table->string('code')->unique();
+            $table->text('transfer_evidence_path');
             $table->timestamps();
             $table->softDeletes();
 

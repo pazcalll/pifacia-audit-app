@@ -9,4 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/admins/login', [AdminController::class, 'login']);
-Route::delete('/admins/logout', [AdminController::class, 'logout'])->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('/admins/profile', [AdminController::class, 'profile']);
+    Route::delete('/admins/logout', [AdminController::class, 'logout']);
+});
