@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->uuid();
+            $table->foreignUuid('admin_id');
             $table->string('name');
             $table->bigInteger('price');
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('admin_id')
+                ->references('id')
+                ->on('admins');
         });
     }
 

@@ -18,6 +18,13 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->json('item_object');
             $table->timestamps();
+
+            $table->foreign('invoice_id')
+                ->references('id')
+                ->on('invoices');
+            $table->foreign('item_id')
+                ->references('id')
+                ->on('items');
         });
     }
 
