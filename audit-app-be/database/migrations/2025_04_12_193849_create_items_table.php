@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->uuid();
-            $table->foreignUuid('admin_uuid');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('admin_id');
             $table->string('name');
             $table->bigInteger('price');
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('admin_uuid')
-                ->references('uuid')
+            $table->foreign('admin_id')
+                ->references('id')
                 ->on('admins');
         });
     }

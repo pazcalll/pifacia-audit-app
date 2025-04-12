@@ -2,48 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminAuthRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function login(AdminAuthRequest $request)
     {
-        //
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $admin = Admin::where('email', $request->email)->first();
+            $token = $admin->createToken('Admin Token')->plainTextToken;
+
+            return apiResponse([
+                'admin' => $admin,
+                'token' => $token,
+            ]);
+        }
+
+        return apiErrorResponse(
+            'Invalid credentials',
+            401
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function logout(Request $request)
     {
-        //
-    }
+        $admin = $request->user();
+        $admin->currentAccessToken()->delete();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin)
-    {
-        //
+        return apiResponse(
+            message: 'Logged out successfully',
+        );
     }
 }

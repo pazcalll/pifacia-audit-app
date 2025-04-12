@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->uuid();
-            $table->foreignUuid('user_uuid');
+            $table->foreignUuid('user_id');
             $table->string('code')->unique();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_uuid')
-                ->references('uuid')
+            $table->foreign('user_id')
+                ->references('id')
                 ->on('users');
         });
     }
