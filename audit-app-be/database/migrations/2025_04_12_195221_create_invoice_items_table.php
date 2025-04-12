@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->uuid();
-            $table->foreignUuid('invoice_id');
-            $table->foreignUuid('item_id');
+            $table->foreignUuid('invoice_uuid');
+            $table->foreignUuid('item_uuid');
             $table->integer('quantity')->default(1);
             $table->json('item_object');
             $table->timestamps();
 
-            $table->foreign('invoice_id')
-                ->references('id')
+            $table->foreign('invoice_uuid')
+                ->references('uuid')
                 ->on('invoices');
-            $table->foreign('item_id')
-                ->references('id')
+            $table->foreign('item_uuid')
+                ->references('uuid')
                 ->on('items');
         });
     }

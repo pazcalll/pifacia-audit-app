@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
-            $table->uuid();
-            $table->foreignUuid('admin_uuid');
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
             $table->string('name');
-            $table->bigInteger('price');
-            $table->boolean('active')->default(true);
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('admin_uuid')
-                ->references('uuid')
-                ->on('admins');
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };
