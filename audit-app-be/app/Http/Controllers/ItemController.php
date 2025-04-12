@@ -14,6 +14,9 @@ class ItemController extends Controller
     public function index()
     {
         //
+        $items = Item::paginate(10);
+
+        return apiPaginationResponse($items);
     }
 
     /**
@@ -22,6 +25,16 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         //
+        $validated = $request->validated();
+        $item = Item::create([
+            ...$validated,
+            'admin_id' => $request->user()->id,
+        ]);
+
+        return apiResponse(
+            data: $item,
+            message: 'Item created successfully',
+        );
     }
 
     /**
@@ -30,6 +43,10 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         //
+        return apiResponse(
+            data: $item,
+            message: 'Item retrieved successfully',
+        );
     }
 
     /**
@@ -38,6 +55,13 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         //
+        $validated = $request->validated();
+        $validated['active'] = $validated['active'] == 'inactive' ? false : true;
+        $item->update($validated);
+        return apiResponse(
+            data: $item,
+            message: 'Item updated successfully',
+        );
     }
 
     /**
@@ -46,5 +70,9 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+        $item->delete();
+        return apiResponse(
+            message: 'Item deleted successfully',
+        );
     }
 }

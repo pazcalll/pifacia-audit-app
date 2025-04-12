@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreItemRequest extends FormRequest
@@ -11,6 +12,8 @@ class StoreItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->user() instanceof Admin) return true;
+
         return false;
     }
 
@@ -23,6 +26,8 @@ class StoreItemRequest extends FormRequest
     {
         return [
             //
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric', 'min:100'],
         ];
     }
 }

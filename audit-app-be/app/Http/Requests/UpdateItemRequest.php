@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateItemRequest extends FormRequest
@@ -11,6 +12,8 @@ class UpdateItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->user() instanceof Admin) return true;
+
         return false;
     }
 
@@ -22,7 +25,9 @@ class UpdateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric', 'min:100'],
+            'active' => ['required', 'in:active,inactive'],
         ];
     }
 }
