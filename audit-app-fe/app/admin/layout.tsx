@@ -1,8 +1,8 @@
-import UserHeader from "@/components/fragments/user-header";
 import { baseHeaders } from "@/components/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import dotenv from "dotenv";
+import AdminHeader from "@/components/fragments/admin-header";
 
 dotenv.config();
 
@@ -32,7 +32,7 @@ export default async function Layout({
   return (
     <div className="w-full h-screen">
       <div className="w-full flex justify-center">
-        <UserHeader />
+        <AdminHeader />
       </div>
       <div className="w-full">{children}</div>
     </div>
