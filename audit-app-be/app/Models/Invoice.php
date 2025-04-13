@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Invoice extends Model
+class Invoice extends Model implements Auditable
 {
     //
-    use SoftDeletes, Auditable;
+    use
+        SoftDeletes,
+        HasUuids,
+        \OwenIt\Auditing\Auditable;
 
     protected $guarded = ['id'];
 

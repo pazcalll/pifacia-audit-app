@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Item extends Model
+class Item extends Model implements Auditable
 {
     //
-    use HasUuids;
+    use HasUuids,
+        HasFactory,
+        \OwenIt\Auditing\Auditable;
 
     protected $guarded = ['id'];
     protected $hidden = [

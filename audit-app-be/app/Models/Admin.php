@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements Auditable
 {
     /** @use HasFactory<\Database\Factories\AdminFactory> */
-    use HasApiTokens, HasFactory, HasUuids;
+    use HasApiTokens, HasFactory, HasUuids, \OwenIt\Auditing\Auditable;
 
     final const ROLE_ADMINISTRATOR = 'administrator';
     final const ROLES = [

@@ -26,6 +26,7 @@ class StoreInvoiceRequest extends FormRequest
     {
         return [
             //
+            'code' => ['required', 'string', 'max:100', 'unique:invoices,code'],
             'transfer_evidence' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:500', 'min:100'],
             'invoice_items' => ['required', 'array'],
             'invoice_items.*.item_id' => ['required', 'exists:items,id', 'distinct'],

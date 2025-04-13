@@ -36,7 +36,8 @@ class InvoiceController extends Controller
 
             $invoice = Invoice::create([
                 'user_id' => $request->user()->id,
-                'transfer_evidence' => $request->file('transfer_evidence')->store('transfer_evidence'),
+                'code' => $validated['code'],
+                'transfer_evidence_path' => $request->file('transfer_evidence')->store('transfer_evidence', 'public'),
             ]);
 
             $invoiceItems = [];
