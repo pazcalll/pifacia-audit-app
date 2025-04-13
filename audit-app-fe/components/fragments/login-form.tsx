@@ -29,7 +29,7 @@ export default function LoginForm({
       | TApiResponse<{ user: TUser; token: string }>
       | TApiErrorResponse = await userLogin(email, password);
     if (response?.data?.token) {
-      router.push("/");
+      router.push("/user");
       return;
     }
     toast(response.message, {
