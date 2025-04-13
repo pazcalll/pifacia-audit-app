@@ -8,6 +8,7 @@ export default function Page() {
       <LoginForm
         title="Staff Login"
         caption="Please enter your username and password to login."
+        registrationEndpoint="/auth/user/register"
       />
     </div>
   );
