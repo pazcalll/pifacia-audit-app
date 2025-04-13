@@ -14,7 +14,7 @@ class ItemController extends Controller
     public function index()
     {
         //
-        $items = Item::paginate(10);
+        $items = Item::latest()->paginate(10);
 
         return apiPaginationResponse($items);
     }

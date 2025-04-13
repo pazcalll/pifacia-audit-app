@@ -14,6 +14,7 @@ class AuditController extends Controller
     {
         //
         $audits = Audit::query()
+            ->latest()
             ->with('auditable')
             ->with('user')
             ->latest()

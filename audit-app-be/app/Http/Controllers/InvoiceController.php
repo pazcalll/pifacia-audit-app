@@ -17,6 +17,7 @@ class InvoiceController extends Controller
     {
         //
         $invoices = Invoice::query()
+            ->latest()
             ->withTotalPrice()
             ->paginate();
 
