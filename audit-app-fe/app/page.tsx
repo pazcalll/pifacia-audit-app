@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { AuthorizationButtons } from "@/components/fragments/authorization-buttons";
 
 export default function Home() {
   return (
@@ -11,12 +11,7 @@ export default function Home() {
           Selamat datang pengguna, silakan pilih otorisasi login anda di bawah
           ini!
         </p>
-        <div className="flex items-center justify-center w-full">
-          <div className="w-[22rem] gap-[12px] flex justify-between">
-            <Button className="cursor-pointer">Admin</Button>
-            <Button className="cursor-pointer">Staff</Button>
-          </div>
-        </div>
+        <AuthorizationButtons />
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <small>By Yazeed Qholili Arifin</small>
