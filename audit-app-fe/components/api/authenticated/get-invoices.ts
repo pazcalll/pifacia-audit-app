@@ -27,6 +27,7 @@ export const getInvoices = async (
 
   if (!response.ok) {
     const errorResponse: TApiErrorResponse = await response.json();
+    errorResponse.code = response.status;
     return errorResponse;
   }
 
