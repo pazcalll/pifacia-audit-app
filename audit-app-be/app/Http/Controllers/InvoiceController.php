@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Models\Item;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -14,6 +16,11 @@ class InvoiceController extends Controller
     public function index()
     {
         //
+        $invoices = Invoice::query()
+            ->with(['invoiceItems', 'user'])
+            ->paginate();
+
+        return apiPaginationResponse($invoices);
     }
 
     /**
@@ -22,6 +29,35 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         //
+        $validated = $request->validated();
+
+        try {
+            DB::beginTransaction();
+
+            $invoice = Invoice::create([
+                'user_id' => $request->user()->id,
+                'transfer_evidence' => $request->file('transfer_evidence')->store('transfer_evidence'),
+            ]);
+
+            $invoiceItems = [];
+            foreach ($validated['invoice_items'] as $item) {
+                $invoiceItems[] = [
+                    'item_id' => $item['item_id'],
+                    'quantity' => $item['item_quantity'],
+                    'item_object' => Item::find($item['item_id']),
+                ];
+            }
+
+            $invoice->invoiceItems()->createMany($invoiceItems);
+            $invoice->save();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return apiErrorResponse($th->getMessage());
+        }
+
+        return apiResponse($invoice);
     }
 
     /**

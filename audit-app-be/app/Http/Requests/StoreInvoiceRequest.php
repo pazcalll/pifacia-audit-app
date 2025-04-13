@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInvoiceRequest extends FormRequest
@@ -11,6 +12,8 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->user() instanceof User) return true;
+
         return false;
     }
 
@@ -23,6 +26,10 @@ class StoreInvoiceRequest extends FormRequest
     {
         return [
             //
+            'transfer_evidence' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:500', 'min:100'],
+            'invoice_items' => ['required', 'array'],
+            'invoice_items.*.item_id' => ['required', 'exists:items,id', 'distinct'],
+            'invoice_items.*.item_quantity' => ['required', 'numeric', 'min:1', 'max:100'],
         ];
     }
 }

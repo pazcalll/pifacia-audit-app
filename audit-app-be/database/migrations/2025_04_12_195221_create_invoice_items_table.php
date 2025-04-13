@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->json('item_object');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('invoice_id')
                 ->references('id')
