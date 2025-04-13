@@ -32,5 +32,7 @@ export const userLogin = async (
   }
 
   const error = await response.json();
+  error.code = response.status;
+
   return error as TApiErrorResponse;
 };
