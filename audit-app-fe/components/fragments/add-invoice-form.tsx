@@ -1,19 +1,16 @@
 "use client";
 
-import { Copy } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import { useEffect, useState } from "react";
 import TableItems from "./table-items";
 import { TItem } from "../types/item";

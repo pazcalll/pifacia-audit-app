@@ -6,10 +6,8 @@ import {
 } from "@/components/types/api-response";
 import { TInvoice } from "@/components/types/invoice";
 import { TItem } from "@/components/types/item";
-import { baseHeaders } from "@/components/utils";
 import dotenv from "dotenv";
 import { cookies } from "next/headers";
-import fs from "fs";
 dotenv.config();
 
 export const createInvoice = async (
