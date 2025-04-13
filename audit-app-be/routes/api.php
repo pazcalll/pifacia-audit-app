@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('items', ItemController::class)->only(['store', 'update', 'destroy']);
         Route::patch('users/{user}/restore', [UserController::class, 'restore']);
         Route::apiResource('users', UserController::class)->only(['index', 'destroy']);
+        Route::apiResource('audits', AuditController::class)->only(['index']);
     });
     Route::middleware('user')->group(function () {
         Route::patch('/users/profile', [UserController::class, 'updateProfile']);
