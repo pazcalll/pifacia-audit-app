@@ -26,7 +26,6 @@ export default async function Layout({
   );
 
   if (!response.ok) {
-    (await cookies()).delete("token");
     redirect("/");
   }
 

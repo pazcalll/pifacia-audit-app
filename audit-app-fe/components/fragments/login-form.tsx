@@ -8,29 +8,44 @@ import { userLogin } from "../api/user-login";
 import { TApiErrorResponse, TApiResponse } from "../types/api-response";
 import { TUser } from "../types/user";
 import { toast } from "sonner";
+import { TAdmin } from "../types/admin";
+import { adminLogin } from "../api/admin-login";
 
 type TLoginForm = {
   registrationEndpoint?: string;
   title: string;
   caption: string;
+  loginAs: "user" | "admin";
 };
 
 export default function LoginForm({
   registrationEndpoint,
   title,
   caption,
+  loginAs = "user",
 }: TLoginForm) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response:
-      | TApiResponse<{ user: TUser; token: string }>
-      | TApiErrorResponse = await userLogin(email, password);
-    if (response?.data?.token) {
-      router.push("/user");
-      return;
+    let response:
+      | TApiResponse<
+          { user: TUser; token: string } | { admin: TAdmin; token: string }
+        >
+      | TApiErrorResponse;
+    if (loginAs === "user") {
+      response = await userLogin(email, password);
+      if (response?.data?.token) {
+        router.push("/user");
+        return;
+      }
+    } else {
+      response = await adminLogin(email, password);
+      if (response?.data?.token) {
+        router.push("/admin");
+        return;
+      }
     }
     toast(response.message, {
       style: {
