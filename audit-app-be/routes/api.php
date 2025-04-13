@@ -17,6 +17,12 @@ Route::post('/users/register', [UserController::class, 'register']);
 Route::post('/admins/login', [AdminController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('invoices', InvoiceController::class)->only(['index']);
+    Route::middleware('user')->group(function () {
+        Route::patch('/users/profile', [UserController::class, 'updateProfile']);
+        Route::get('/users/profile', [UserController::class, 'profile']);
+        Route::delete('/users/logout', [UserController::class, 'logout']);
+        Route::apiResource('invoices', InvoiceController::class)->except(['index']);
+    });
     Route::middleware('admin')->group(function () {
         Route::get('/admins/profile', [AdminController::class, 'profile']);
         Route::delete('/admins/logout', [AdminController::class, 'logout']);
@@ -24,12 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('users/{user}/restore', [UserController::class, 'restore']);
         Route::apiResource('users', UserController::class)->only(['index', 'destroy']);
         Route::apiResource('audits', AuditController::class)->only(['index']);
-    });
-    Route::middleware('user')->group(function () {
-        Route::patch('/users/profile', [UserController::class, 'updateProfile']);
-        Route::get('/users/profile', [UserController::class, 'profile']);
-        Route::delete('/users/logout', [UserController::class, 'logout']);
-        Route::apiResource('invoices', InvoiceController::class)->except(['index']);
     });
 });
 
