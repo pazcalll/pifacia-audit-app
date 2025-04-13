@@ -14,15 +14,19 @@ export default async function Layout({
   const token = (await cookies()).get("token");
   if (!token) redirect("/");
 
-  const response = await fetch(`${process.env.BACKEND_URL}/api/users/profile`, {
-    method: "GET",
-    headers: {
-      ...baseHeaders,
-      Authorization: `Bearer ${token.value}`,
-    },
-  });
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/admins/profile`,
+    {
+      method: "GET",
+      headers: {
+        ...baseHeaders,
+        Authorization: `Bearer ${token.value}`,
+      },
+    }
+  );
 
   if (!response.ok) {
+    (await cookies()).delete("token");
     redirect("/");
   }
 

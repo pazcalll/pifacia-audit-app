@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -8,22 +7,36 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
+import { logout } from "../api/authenticated/user/logout";
+import { useRouter } from "next/navigation";
 
 export default function UserHeader() {
+  const router = useRouter();
   return (
     <NavigationMenu className="h-[4rem]">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/user/add-invoice" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Add Invoice
-            </NavigationMenuLink>
-          </Link>
-          <Link href="/user" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Get Invoices
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink
+            className={navigationMenuTriggerStyle()}
+            href="/user/add-invoice"
+          >
+            Add Invoice
+          </NavigationMenuLink>
+          <NavigationMenuLink
+            className={navigationMenuTriggerStyle()}
+            href="/user"
+          >
+            Get Invoices
+          </NavigationMenuLink>
+          <NavigationMenuLink
+            className={navigationMenuTriggerStyle() + " cursor-pointer"}
+            onClick={async () => {
+              await logout();
+              router.push("/");
+            }}
+          >
+            Logout
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
