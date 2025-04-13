@@ -15,6 +15,9 @@ class Item extends Model implements Auditable
         \OwenIt\Auditing\Auditable;
 
     protected $guarded = ['id'];
+    protected $casts = [
+        'active' => 'boolean',
+    ];
     protected $hidden = [
         'deleted_at',
     ];
