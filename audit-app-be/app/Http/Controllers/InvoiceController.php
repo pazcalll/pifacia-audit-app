@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     {
         //
         $invoices = Invoice::query()
-            ->with(['invoiceItems', 'user'])
+            ->withTotalPrice()
             ->paginate();
 
         return apiPaginationResponse($invoices);
@@ -67,6 +67,10 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         //
+        $invoice = $invoice->withTotalPrice()
+            ->with(['user', 'invoiceItems'])
+            ->find($invoice->id);
+        return apiResponse($invoice);
     }
 
     /**
@@ -83,5 +87,7 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
+        $invoice->delete();
+        return apiResponse(message: 'Invoice deleted successfully');
     }
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -14,7 +15,12 @@ use OwenIt\Auditing\Contracts\Auditable;
 class User extends Authenticatable implements Auditable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HasUuids, \OwenIt\Auditing\Auditable;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasUuids,
+        SoftDeletes,
+        \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -35,7 +41,6 @@ class User extends Authenticatable implements Auditable
     protected $hidden = [
         'password',
         'remember_token',
-        'deleted_at',
     ];
 
     /**

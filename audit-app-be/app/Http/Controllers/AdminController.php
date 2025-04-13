@@ -6,6 +6,7 @@ use App\Http\Requests\AdminAuthRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -13,8 +14,8 @@ class AdminController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $admin = Admin::where('email', $request->email)->first();
+        $admin = Admin::where('email', $request->email)->first();
+        if (Hash::check($credentials['password'], $admin->password)) {
             $token = $admin->createToken('Admin Token')->plainTextToken;
 
             return apiResponse([

@@ -86,9 +86,9 @@ class UserController extends Controller
         return apiResponse(message: 'User deleted successfully');
     }
 
-    public function restore(User $user)
+    public function restore(string $userId)
     {
-        $user->restore();
+        User::withTrashed()->find($userId)->restore();
         return apiResponse(message: 'User restored successfully');
     }
 }
