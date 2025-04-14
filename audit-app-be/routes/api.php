@@ -15,6 +15,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/users/login', [UserController::class, 'login']);
 Route::post('/users/register', [UserController::class, 'register']);
 Route::post('/admins/login', [AdminController::class, 'login']);
+Route::get('/invoices/export', [InvoiceController::class, 'export']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('invoices', InvoiceController::class)->only(['index']);
     Route::middleware('user')->group(function () {

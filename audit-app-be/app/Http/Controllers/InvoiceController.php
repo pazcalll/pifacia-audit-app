@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InvoiceExport;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Item;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
@@ -90,5 +92,10 @@ class InvoiceController extends Controller
         //
         $invoice->delete();
         return apiResponse(message: 'Invoice deleted successfully');
+    }
+
+    public function export()
+    {
+        return Excel::download(new InvoiceExport, 'invoices.xlsx');
     }
 }
