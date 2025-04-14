@@ -84,7 +84,6 @@ export default function AddInvoiceForm() {
         <Input
           type="file"
           placeholder="Transfer Evidence"
-          accept="image/*"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
               setTransferEvidence(e.target.files[0]); // Set the selected file to state

@@ -19,7 +19,7 @@ export const createInvoice = async (
   const formData = new FormData();
   formData.append("code", code);
   formData.append("transfer_evidence", transferEvidence);
-  formData.append("invoice_items[0][item_id]", item.id);
+  formData.append("invoice_items[0][item_id]", item?.id);
   formData.append("invoice_items[0][item_quantity]", quantity.toString());
 
   console.log("Form Data:", formData.get("code"));
